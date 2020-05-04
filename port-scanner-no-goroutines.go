@@ -16,7 +16,7 @@ func PortScan(server string) []int {
         for i := 1; i <= 65535; i++ {
                 ip := server + ":" + strconv.Itoa(i)
 
-                _, err := net.DialTimeout("tcp", ip, time.Duration(500)*time.Millisecond)
+                _, err := net.DialTimeout("tcp", ip, time.Duration(300)*time.Millisecond)
                 if err != nil {
                 } else {
                         available = append(available, i)
@@ -28,7 +28,7 @@ func PortScan(server string) []int {
 
 func main() {
 
-        fmt.Println("Cheking for available ports...")
+        fmt.Println("Checking for available ports...")
         ports := PortScan(os.Args[1])
 
         fmt.Println("Ports available: " ,ports)
