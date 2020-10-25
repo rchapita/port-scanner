@@ -29,11 +29,9 @@ func createWorkerPool(noOfWorkers int) {
 func worker(wg *sync.WaitGroup) {
 	for job := range jobs {
 		ip := job.server + ":" + strconv.Itoa(job.port)
-		fmt.Println(ip)
 
 		_, err := net.DialTimeout("tcp", ip, time.Duration(300)*time.Millisecond)
-		if err != nil {
-		} else {
+		if err == nil {
 			available = append(available, job.port)
 		}
 	}
@@ -54,10 +52,9 @@ func main() {
 	fmt.Println("Checking for available ports...")
 	done := make(chan bool)
 	go PortScan(done, os.Args[1])
-	noOfWorkers := 10000
+	noOfWorkers := 100
 	createWorkerPool(noOfWorkers)
 	<-done
 
 	fmt.Println("Ports available: ", available)
-
 }
